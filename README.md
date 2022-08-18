@@ -1,7 +1,7 @@
 # Plugin Publish Conventions Gradle plugin
 
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fgradlex-org%2Fplugin-publish-conventions%2Fbadge%3Fref%3Dmain&style=flat)](https://actions-badge.atrox.dev/gradlex-org/plugin-publish-conventions/goto?ref=main)
-[![Gradle Plugin Portal](https://img.shields.io/maven-metadata/v?label=Plugin%20Portal&metadataUrl=https%3A%2F%2Fplugins.gradle.org%2Fm2%2Forg%2Fgradlex%2Fplugin-publish-conventions%2Forg.gradlex.internal.plugin-publish-conventions.gradle.plugin%2Fmaven-metadata.xml)](https://plugins.gradle.org/plugin/org.gradlex.internal.plugin-publish-conventions)
+[![Gradle Plugin Portal](https://img.shields.io/maven-metadata/v?label=Plugin%20Portal&metadataUrl=https%3A%2F%2Fplugins.gradle.org%2Fm2%2Forg%2Fgradlex%2Finternal%2Fplugin-publish-conventions%2Forg.gradlex.internal.plugin-publish-conventions.gradle.plugin%2Fmaven-metadata.xml)](https://plugins.gradle.org/plugin/org.gradlex.internal.plugin-publish-conventions)
 
 **Note: This plugin is currently to be used within the GradleX organization only to publish `org.gradlex` plugins**
 
