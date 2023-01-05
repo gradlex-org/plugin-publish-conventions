@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 public abstract class PluginPublishConventionsExtension {
@@ -44,8 +45,8 @@ public abstract class PluginPublishConventionsExtension {
             GradlePluginDevelopmentExtension gradlePlugin
     ) {
         this.project = project;
-        this.pluginDefinition = gradlePlugin.getPlugins().create(project.getName());
         this.gradlePlugin = gradlePlugin;
+        this.pluginDefinition = gradlePlugin.getPlugins().create(toCamelCase(project.getName()));
     }
 
 
@@ -108,5 +109,11 @@ public abstract class PluginPublishConventionsExtension {
 
     public void developer(Action<MavenPomDeveloper> action) {
         developers.add(action);
+    }
+
+    private static String toCamelCase(String s) {
+        String cc = Arrays.stream(s.split("-")).map(segment ->
+                segment.substring(0, 1).toUpperCase() + segment.substring(1)).collect(Collectors.joining());
+        return cc.substring(0, 1).toLowerCase() + cc.substring(1);
     }
 }
