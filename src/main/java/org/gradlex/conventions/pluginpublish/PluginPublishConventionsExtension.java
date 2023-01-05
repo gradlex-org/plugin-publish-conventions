@@ -16,7 +16,6 @@
 
 package org.gradlex.conventions.pluginpublish;
 
-import com.gradle.publish.PluginBundleExtension;
 import org.gradle.api.Action;
 import org.gradle.api.Project;
 import org.gradle.api.provider.Provider;
@@ -26,8 +25,8 @@ import org.gradle.plugin.devel.PluginDeclaration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @SuppressWarnings("unused")
 public abstract class PluginPublishConventionsExtension {
@@ -35,19 +34,18 @@ public abstract class PluginPublishConventionsExtension {
     public static final String NAME = "pluginPublishConventions";
 
     private final Project project;
+    private final GradlePluginDevelopmentExtension gradlePlugin;
     private final PluginDeclaration pluginDefinition;
-    private final PluginBundleExtension pluginBundle;
 
     List<Action<MavenPomDeveloper>> developers = new ArrayList<>();
 
     public PluginPublishConventionsExtension(
             Project project,
-            GradlePluginDevelopmentExtension gradlePlugin,
-            PluginBundleExtension pluginBundle
+            GradlePluginDevelopmentExtension gradlePlugin
     ) {
         this.project = project;
         this.pluginDefinition = gradlePlugin.getPlugins().create(project.getName());
-        this.pluginBundle = pluginBundle;
+        this.gradlePlugin = gradlePlugin;
     }
 
 
@@ -68,15 +66,15 @@ public abstract class PluginPublishConventionsExtension {
     }
 
     public Provider<String> getGitHub() {
-        return project.getProviders().provider(pluginBundle::getVcsUrl);
+        return gradlePlugin.getVcsUrl();
     }
 
     public Provider<String> getWebsite() {
-        return project.getProviders().provider(pluginBundle::getVcsUrl);
+        return gradlePlugin.getWebsite();
     }
 
-    public Provider<Collection<String>> getTags() {
-        return project.getProviders().provider(pluginBundle::getTags);
+    public Provider<Set<String>> getTags() {
+        return pluginDefinition.getTags();
     }
 
     public void id(String id) {
@@ -93,22 +91,19 @@ public abstract class PluginPublishConventionsExtension {
 
     public void description(String description) {
         pluginDefinition.setDescription(description);
-        pluginBundle.setDescription(description);
     }
 
     public void gitHub(String gitHub) {
-        pluginBundle.setVcsUrl(gitHub);
-        if (pluginBundle.getWebsite() == null || pluginBundle.getWebsite().isEmpty()) {
-            pluginBundle.setWebsite(gitHub);
-        }
+        gradlePlugin.getVcsUrl().set(gitHub);
+        gradlePlugin.getWebsite().convention(gitHub);
     }
 
     public void website(String website) {
-        pluginBundle.setWebsite(website);
+        gradlePlugin.getWebsite().set(website);
     }
 
     public void tags(String... tags) {
-        pluginBundle.setTags(Arrays.asList(tags));
+        pluginDefinition.getTags().set(Arrays.asList(tags));
     }
 
     public void developer(Action<MavenPomDeveloper> action) {

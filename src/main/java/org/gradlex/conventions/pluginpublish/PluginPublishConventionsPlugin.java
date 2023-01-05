@@ -16,7 +16,6 @@
 
 package org.gradlex.conventions.pluginpublish;
 
-import com.gradle.publish.PluginBundleExtension;
 import com.gradle.publish.PublishPlugin;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -29,6 +28,7 @@ import org.gradle.api.publish.maven.MavenPublication;
 import org.gradle.plugin.devel.GradlePluginDevelopmentExtension;
 import org.gradle.plugins.signing.SigningPlugin;
 
+@SuppressWarnings("unused")
 public abstract class PluginPublishConventionsPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
@@ -40,13 +40,12 @@ public abstract class PluginPublishConventionsPlugin implements Plugin<Project> 
         plugins.apply(SigningPlugin.class);
 
         GradlePluginDevelopmentExtension gradlePlugin = extensions.getByType(GradlePluginDevelopmentExtension.class);
-        PluginBundleExtension pluginBundle = extensions.getByType(PluginBundleExtension.class);
         PublishingExtension publishing = extensions.getByType(PublishingExtension.class);
         CheckstyleExtension checkstyle = extensions.getByType(CheckstyleExtension.class);
 
         PluginPublishConventionsExtension pluginPublishConventions = extensions.create(
                 PluginPublishConventionsExtension.NAME, PluginPublishConventionsExtension.class,
-                project, gradlePlugin, pluginBundle);
+                project, gradlePlugin);
 
         publishing.getPublications().withType(MavenPublication.class).configureEach(p -> {
             p.getPom().getName().set(pluginPublishConventions.getDisplayName());
