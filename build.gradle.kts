@@ -14,14 +14,14 @@ pluginPublishConventions {
     tags("gradlex", "conventions", "publish", "plugins")
     gitHub("https://github.com/gradlex-org/plugin-publish-conventions")
     developer {
-        id.set("britter")
-        name.set("Benedikt Ritter")
-        email.set("benedikt@gradlex.org")
+        id = "britter"
+        name = "Benedikt Ritter"
+        email = "benedikt@gradlex.org"
     }
     developer {
-        id.set("jjohannes")
-        name.set("Jendrik Johannes")
-        email.set("jendrik@gradlex.org")
+        id = "jjohannes"
+        name = "Jendrik Johannes"
+        email = "jendrik@gradlex.org"
     }
 }
 
