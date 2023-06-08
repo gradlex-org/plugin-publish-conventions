@@ -1,10 +1,10 @@
 plugins {
     id("java-gradle-plugin")
-    id("org.gradlex.internal.plugin-publish-conventions") version "0.5"
+    id("org.gradlex.internal.plugin-publish-conventions") version "0.6"
 }
 
 group = "org.gradlex"
-version = "0.6"
+version = "0.7"
 
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(8)
@@ -27,14 +27,6 @@ pluginPublishConventions {
         name = "Jendrik Johannes"
         email = "jendrik@gradlex.org"
     }
-}
-
-// TODO This can be removed after release 0.6
-signing {
-    useInMemoryPgpKeys(
-            providers.environmentVariable("SIGNING_KEY").orNull,
-            providers.environmentVariable("SIGNING_PASSPHRASE").orNull
-    )
 }
 
 dependencies {
