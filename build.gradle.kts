@@ -6,6 +6,10 @@ plugins {
 group = "org.gradlex"
 version = "0.5"
 
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(8)
+}
+
 pluginPublishConventions {
     id("${project.group}.internal.${project.name}")
     implementationClass("org.gradlex.conventions.pluginpublish.PluginPublishConventionsPlugin")
