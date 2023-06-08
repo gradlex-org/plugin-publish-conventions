@@ -23,9 +23,11 @@ import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.plugins.PluginContainer;
 import org.gradle.api.plugins.quality.CheckstyleExtension;
 import org.gradle.api.plugins.quality.CheckstylePlugin;
+import org.gradle.api.provider.ProviderFactory;
 import org.gradle.api.publish.PublishingExtension;
 import org.gradle.api.publish.maven.MavenPublication;
 import org.gradle.plugin.devel.GradlePluginDevelopmentExtension;
+import org.gradle.plugins.signing.SigningExtension;
 import org.gradle.plugins.signing.SigningPlugin;
 
 @SuppressWarnings("unused")
@@ -34,6 +36,7 @@ public abstract class PluginPublishConventionsPlugin implements Plugin<Project> 
     public void apply(Project project) {
         PluginContainer plugins = project.getPlugins();
         ExtensionContainer extensions = project.getExtensions();
+        ProviderFactory providers = project.getProviders();
         
         plugins.apply(CheckstylePlugin.class);
         plugins.apply(PublishPlugin.class);
@@ -42,6 +45,12 @@ public abstract class PluginPublishConventionsPlugin implements Plugin<Project> 
         GradlePluginDevelopmentExtension gradlePlugin = extensions.getByType(GradlePluginDevelopmentExtension.class);
         PublishingExtension publishing = extensions.getByType(PublishingExtension.class);
         CheckstyleExtension checkstyle = extensions.getByType(CheckstyleExtension.class);
+        SigningExtension signing = extensions.getByType(SigningExtension.class);
+
+        signing.useInMemoryPgpKeys(
+                providers.environmentVariable("SIGNING_KEY").getOrNull(),
+                providers.environmentVariable("SIGNING_PASSPHRASE").getOrNull()
+        );
 
         PluginPublishConventionsExtension pluginPublishConventions = extensions.create(
                 PluginPublishConventionsExtension.NAME, PluginPublishConventionsExtension.class,
