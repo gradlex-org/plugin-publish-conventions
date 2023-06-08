@@ -29,6 +29,14 @@ pluginPublishConventions {
     }
 }
 
+// TODO This can be removed after release 0.6
+signing {
+    useInMemoryPgpKeys(
+            providers.environmentVariable("SIGNING_KEY").orNull,
+            providers.environmentVariable("SIGNING_PASSPHRASE").orNull
+    )
+}
+
 dependencies {
     implementation("com.gradle.publish:plugin-publish-plugin:1.2.0")
 }
