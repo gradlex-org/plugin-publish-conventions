@@ -30,5 +30,5 @@ pluginPublishConventions {
 }
 
 dependencies {
-    implementation("com.gradle.publish:plugin-publish-plugin:1.2.0")
+    implementation("com.gradle.publish:plugin-publish-plugin:1.3.0")
 }
