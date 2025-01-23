@@ -1,16 +1,22 @@
-name: Build Plugin
-on: [ push, pull_request ]
+name: "CI Build"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
   gradle-build:
     runs-on: ubuntu-latest
     steps:
       - name: git clone
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
       - name: Set up JDK
-        uses: actions/setup-java@v4.6.0
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 11
       - name: Set up Gradle
-        uses: gradle/gradle-build-action@v3.5.0
+        uses: gradle/actions/setup-gradle@v4
       - run: "./gradlew build"
