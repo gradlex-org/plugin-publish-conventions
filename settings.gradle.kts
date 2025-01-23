@@ -1,20 +1,22 @@
+rootProject.name = "plugin-publish-conventions"
+
 plugins {
     id("com.gradle.enterprise") version "3.19"
+    id("com.gradle.common-custom-user-data-gradle-plugin") version "2.1"
 }
-
-rootProject.name = "plugin-publish-conventions"
 
 dependencyResolutionManagement {
     repositories.gradlePluginPortal()
 }
 
-gradleEnterprise {
-    val runsOnCI = providers.environmentVariable("CI").getOrElse("false").toBoolean()
-    if (runsOnCI) {
-        buildScan {
-            publishAlways()
-            termsOfServiceUrl = "https://gradle.com/terms-of-service"
-            termsOfServiceAgree = "yes"
-        }
+develocity {
+    buildScan {
+        termsOfUseUrl = "https://gradle.com/help/legal-terms-of-use"
+        termsOfUseAgree = "yes"
+
+        // required to bind this to a local variable for configuration cache compatibility
+        val isCi = providers.environmentVariable("CI").getOrElse("false").toBoolean()
+        publishing.onlyIf { isCi }
     }
 }
+
