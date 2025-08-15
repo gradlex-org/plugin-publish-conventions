@@ -71,5 +71,9 @@ public abstract class PluginPublishConventionsPlugin implements Plugin<Project> 
         });
 
         checkstyle.getConfigDirectory().set(project.getLayout().getProjectDirectory().dir("gradle/checkstyle"));
+        project.getDependencies().getConstraints()
+            .add("checkstyle", "com.google.guava:guava:33.4.8-jre", c -> c.because("CVE-2023-2976, CVE-2020-8908"));
+        project.getDependencies().getConstraints()
+            .add("checkstyle", "commons-beanutils:commons-beanutils:1.11.0", c -> c.because("CVE-2025-48734"));
     }
 }
