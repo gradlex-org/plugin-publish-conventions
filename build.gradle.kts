@@ -7,7 +7,7 @@ group = "org.gradlex"
 version = "0.7"
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(8)
+    toolchain.languageVersion = JavaLanguageVersion.of(11)
 }
 
 pluginPublishConventions {
