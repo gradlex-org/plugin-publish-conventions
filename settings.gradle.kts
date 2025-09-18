@@ -2,7 +2,7 @@ rootProject.name = "plugin-publish-conventions"
 
 plugins {
     id("com.gradle.develocity") version "4.2"
-    id("com.gradle.common-custom-user-data-gradle-plugin") version "2.3"
+    id("com.gradle.common-custom-user-data-gradle-plugin") version "2.4.0"
 }
 
 dependencyResolutionManagement {
