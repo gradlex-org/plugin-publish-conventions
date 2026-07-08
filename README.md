@@ -10,7 +10,7 @@
 **settings.gradle.kts**
 ```kotlin
 plugins {
-    id("org.gradlex.internal-build-conventions") version "0.12"
+    id("org.gradlex.internal-build-conventions") version "0.13"
 }
 ```
 
