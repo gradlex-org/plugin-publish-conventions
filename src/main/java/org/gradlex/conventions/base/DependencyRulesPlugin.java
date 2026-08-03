@@ -40,5 +40,7 @@ public abstract class DependencyRulesPlugin implements Plugin<Project> {
             module.removeDependency("org.jruby:jruby");
             module.addRuntimeOnlyDependency("org.jruby:jruby-complete:9.4.8.0");
         });
+
+        project.getConfigurations().configureEach(c -> c.getResolutionStrategy().failOnNonReproducibleResolution());
     }
 }
