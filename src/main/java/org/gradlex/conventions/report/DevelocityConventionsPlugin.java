@@ -13,6 +13,9 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public abstract class DevelocityConventionsPlugin implements Plugin<Settings> {
 
+    private static final String SERVER = "https://community.develocity.cloud";
+    private static final String PROJECT_ID = "gradlex-org";
+
     @Override
     public void apply(Settings settings) {
         var plugins = settings.getPlugins();
@@ -25,13 +28,29 @@ public abstract class DevelocityConventionsPlugin implements Plugin<Settings> {
         var develocity = extensions.getByType(DevelocityConfiguration.class);
         var buildParameters = extensions.getByType(BuildParametersExtension.class);
 
-        develocity.buildScan(buildScan -> {
-            // required to bind this to a local variable for configuration cache compatibility
-            var isCi = buildParameters.getCi();
+        // required to bind this to a local variable for configuration cache compatibility
+        var isCi = buildParameters.getCi();
+        var hasAccessKey = System.getenv("DEVELOCITY_ACCESS_KEY") != null;
 
-            buildScan.getTermsOfUseUrl().set("https://gradle.com/help/legal-terms-of-use");
-            buildScan.getTermsOfUseAgree().set("yes");
-            buildScan.getPublishing().onlyIf(__ -> isCi);
+        develocity.getServer().set(SERVER);
+        develocity.getProjectId().set(PROJECT_ID);
+
+        develocity.buildScan(buildScan -> {
+            buildScan.getUploadInBackground().set(!isCi);
+            buildScan.getPublishing().onlyIf(context -> context.isAuthenticated());
+            buildScan.getObfuscation().ipAddresses(addresses -> addresses.stream()
+                    .map(__ -> "0.0.0.0")
+                    .toList());
+        });
+
+        settings.buildCache(buildCache -> {
+            buildCache.local(local -> local.setEnabled(true));
+            buildCache.remote(develocity.getBuildCache(), remote -> {
+                remote.setEnabled(true);
+                // Check access key presence to avoid build cache errors on PR builds
+                // from forks, where the access key is not available.
+                remote.setPush(isCi && hasAccessKey);
+            });
         });
     }
 }
